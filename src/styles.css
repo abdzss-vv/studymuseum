@@ -140,7 +140,7 @@
 .gallery-art-right { left: 61.1%; top: 26.4%; width: 14.3%; height: 15.6%; }
 .gallery-amphora { left: 46.7%; top: 49%; width: 6.5%; height: 17%; border-radius: 50%; }
 .gallery-amphora:hover { box-shadow: none; outline: 2px solid var(--gold); background: var(--gold-soft); opacity: 0.25; }
-.museum-top { height: 105px; }
+.museum-top { position: relative; z-index: 1; height: 105px; pointer-events: none; }
 .museum-logo { display: block; width: 401px; max-width: 100%; height: auto; }
 .museum-composition { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 588px) minmax(0, 1fr); align-items: center; margin-top: -75px; }
 .miniature-museum { position: relative; grid-column: 2; width: 100%; max-width: min(588px, calc((100svh - 166px) * 0.9767)); justify-self: center; aspect-ratio: 588 / 602; }
