@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
-import { subjects } from "@/data/sample";
 import type { SubjectId, Test } from "@/data/types";
-import { GameButton, Select } from "./ui";
+import { GameButton } from "./ui";
+import { SubjectSelect } from "./SubjectSelect";
 
 export function TestForm({
   initial,
@@ -39,11 +39,9 @@ export function TestForm({
           className="rounded-md border border-input bg-card px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ring"
         />
       </label>
-      <Select
-        label="Subject"
+      <SubjectSelect
         value={subjectId}
-        onChange={(v) => setSubjectId(v as SubjectId)}
-        options={subjects.map((s) => ({ value: s.id, label: s.name }))}
+        onChange={setSubjectId}
       />
       <label className="flex flex-col gap-1 text-sm">
         <span className="font-semibold text-muted-foreground">Deadline</span>

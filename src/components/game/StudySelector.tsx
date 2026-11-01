@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BookOpen, Clock, ArrowRight } from 'lucide-react';
-import { subjects } from '@/data/sample';
-import { GameButton, Select } from './ui';
+import { GameButton } from './ui';
+import { SubjectSelect } from './SubjectSelect';
 import { startSession, validDuration, type StudySession } from '@/lib/study-session';
 
 export function StudySelector({ onStart }: { onStart: (session: StudySession) => void }) {
@@ -15,7 +15,7 @@ export function StudySelector({ onStart }: { onStart: (session: StudySession) =>
   };
   return <div className="space-y-6">
     <BookOpen className="text-primary" size={28} />
-    <Select label="Subject" value={subject} onChange={setSubject} options={subjects.map((s) => ({ value: s.id, label: s.name }))} />
+    <SubjectSelect value={subject} onChange={setSubject} />
     <fieldset><legend className="mb-3 flex items-center gap-2 text-sm font-semibold text-muted-foreground"><Clock size={15} /> Session duration</legend>
       <div className="mb-4 flex items-center justify-between gap-4"><output className="font-serif text-4xl text-primary" aria-live="polite">{minutes} <span className="text-xl">minutes</span></output><label className="text-sm text-muted-foreground">Exact minutes<input aria-label="Exact minutes" type="number" min={1} max={180} step={1} value={input} onChange={(e) => update(e.target.value)} aria-invalid={!valid} className="mt-1 block w-24 rounded-md border border-input bg-card p-2 text-foreground" /></label></div>
       <input className="duration-slider" aria-label="Study duration" type="range" min={1} max={180} step={1} value={minutes} onChange={(e) => update(e.target.value)} />

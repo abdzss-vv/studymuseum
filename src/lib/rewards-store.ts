@@ -1,15 +1,14 @@
 import type { StudySession } from './study-session';
-import type { Collectible, SubjectId } from '@/data/types';
-import { subjects } from '@/data/sample';
+import type { Collectible } from '@/data/types';
 import { makeReward } from '@/data/rewards';
 
 export const REWARDS_KEY = 'collectnstudy-rewards-v1';
 export interface RewardsState { pending: Collectible[]; collected: Collectible[] }
 export const emptyRewards: RewardsState = { pending: [], collected: [] };
 export function completeReward(state: RewardsState, session: StudySession, now: string): RewardsState {
-  if (session.status !== 'done' || session.remaining !== 0 || !subjects.some((s) => s.id === session.subject)) return state;
+  if (session.status !== 'done' || session.remaining !== 0 || !session.subject.trim()) return state;
   if ([...state.pending, ...state.collected].some((r) => r.earnedSessionId === session.id)) return state;
-  return { ...state, pending: [...state.pending, makeReward(session.id, session.subject as SubjectId, now)] };
+  return { ...state, pending: [...state.pending, makeReward(session.id, session.subject, now)] };
 }
 export function confirmReward(state: RewardsState, sessionId: string): RewardsState {
   const reward = state.pending.find((r) => r.earnedSessionId === sessionId);
@@ -26,9 +25,9 @@ export function parseRewards(raw: string | null): RewardsState {
     const normalize = (rows: unknown[]): Collectible[] => rows.flatMap((row) => {
       if (!row || typeof row !== 'object') return [];
       const r = row as Partial<Collectible>;
-      if (typeof r.earnedSessionId !== 'string' || typeof r.earnedAt !== 'string' || !subjects.some((s) => s.id === r.subjectId) || seen.has(r.earnedSessionId)) return [];
+      if (typeof r.earnedSessionId !== 'string' || typeof r.earnedAt !== 'string' || typeof r.subjectId !== 'string' || !r.subjectId.trim() || seen.has(r.earnedSessionId)) return [];
       seen.add(r.earnedSessionId);
-      return [makeReward(r.earnedSessionId, r.subjectId as SubjectId, r.earnedAt)];
+      return [makeReward(r.earnedSessionId, r.subjectId, r.earnedAt)];
     });
     const collected = normalize(data.collected);
     return { collected, pending: normalize(data.pending) };
