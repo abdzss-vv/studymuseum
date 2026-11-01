@@ -1,4 +1,4 @@
-import museumScene from '@/assets/museum-scene.png.asset.json';
+import museumScene from '@/assets/museum-scene-clean.png.asset.json';
 import { museumDisplays, sampleCollectibles } from '@/data/sample';
 import type { Collectible } from '@/data/types';
 import { GameButton } from './ui';
