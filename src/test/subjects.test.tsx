@@ -31,10 +31,13 @@ describe('Custom subjects', () => {
     const start = vi.fn();
     render(<><TestForm onSubmit={vi.fn()} /><StudySelector onStart={start} /></>);
     const selects = screen.getAllByRole('combobox', { name: 'Subject' });
-    fireEvent.change(selects[0], { target: { value: '__add_subject__' } });
+    const testSelect = selects[0];
+    const studySelect = selects[1];
+    if (!testSelect || !studySelect) throw new Error('Both subject menus must be available');
+    fireEvent.change(testSelect, { target: { value: '__add_subject__' } });
     fireEvent.change(screen.getByRole('textbox', { name: 'New subject' }), { target: { value: 'Art History' } });
     fireEvent.click(screen.getByRole('button', { name: 'Add subject' }));
-    fireEvent.change(selects[1], { target: { value: 'Art History' } });
+    fireEvent.change(studySelect, { target: { value: 'Art History' } });
     fireEvent.click(screen.getByRole('button', { name: /Enter the reading room/ }));
     expect(start.mock.calls[0]?.[0].subject).toBe('Art History');
   });
