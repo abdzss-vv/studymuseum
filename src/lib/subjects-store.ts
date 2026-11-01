@@ -48,5 +48,11 @@ export function useSubjects() {
     window.dispatchEvent(new Event(SUBJECTS_EVENT));
     return result.subject;
   };
-  return { subjects, add };
+  const remove = (id: string) => {
+    const next = removeSubjectFromList(parseSubjects(snapshot()), id);
+    window.localStorage.setItem(SUBJECTS_KEY, JSON.stringify(next.map((s) => s.name)));
+    window.dispatchEvent(new Event(SUBJECTS_EVENT));
+    return next;
+  };
+  return { subjects, add, remove, isBuiltIn: isBuiltInSubject };
 }

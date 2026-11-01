@@ -1,6 +1,6 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { addSubjectToList, parseSubjects, SUBJECTS_KEY } from '@/lib/subjects-store';
+import { addSubjectToList, parseSubjects, removeSubjectFromList, SUBJECTS_KEY } from '@/lib/subjects-store';
 import { StudySelector } from '@/components/game/StudySelector';
 import { TestForm } from '@/components/game/TestForm';
 import { subjectName } from '@/data/sample';
@@ -47,5 +47,25 @@ describe('Custom subjects', () => {
     const added = addSubjectToList([], ' Chemistry ');
     expect(added?.subject.name).toBe('Chemistry');
     expect(addSubjectToList(added?.custom ?? [], 'chemistry')?.custom).toHaveLength(1);
+  });
+  it('removes only the named custom subject from the saved list', () => {
+    const custom = [{ id: 'Chemistry', name: 'Chemistry' }, { id: 'Latin', name: 'Latin' }];
+    expect(removeSubjectFromList(custom, 'Chemistry')).toEqual([{ id: 'Latin', name: 'Latin' }]);
+    expect(removeSubjectFromList(custom, 'physics')).toEqual(custom);
+  });
+  it('deletes a custom subject only after an explicit confirmation', () => {
+    localStorage.setItem(SUBJECTS_KEY, JSON.stringify(['Chemistry']));
+    const start = vi.fn();
+    render(<StudySelector onStart={start} />);
+    fireEvent.change(screen.getByRole('combobox', { name: 'Subject' }), { target: { value: 'Chemistry' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Delete Chemistry' }));
+    expect(screen.getByText('Are you sure you want to delete Chemistry?')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(parseSubjects(localStorage.getItem(SUBJECTS_KEY))).toEqual([{ id: 'Chemistry', name: 'Chemistry' }]);
+    fireEvent.click(screen.getByRole('button', { name: 'Delete Chemistry' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
+    expect(parseSubjects(localStorage.getItem(SUBJECTS_KEY))).toEqual([]);
+    expect(screen.queryByText('Are you sure you want to delete Chemistry?')).toBeNull();
+    expect(within(screen.getByRole('combobox', { name: 'Subject' })).getByRole('option', { name: 'History' })).toBeTruthy();
   });
 });
