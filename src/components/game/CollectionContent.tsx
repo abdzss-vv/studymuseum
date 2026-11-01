@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { sampleCollectibles, subjects } from "@/data/sample";
+import { sampleCollectibles } from "@/data/sample";
+import { useSubjects } from '@/lib/subjects-store';
 import type { Category, Rarity } from "@/data/types";
 import { CollectibleCard } from "@/components/game/CollectibleCard";
 import { GameButton, SampleBadge, Select, SectionTitle } from "@/components/game/ui";
@@ -14,6 +15,7 @@ export function CollectionContent() {
   const [rarity, setRarity] = useState("all");
   const [subject, setSubject] = useState("all");
   const { state } = useRewards();
+  const { subjects } = useSubjects();
   const matches = (c: (typeof sampleCollectibles)[number]) => (category === 'all' || c.category === category) && (rarity === 'all' || c.rarity === rarity) && (subject === 'all' || c.subjectId === subject);
   const earned = state.collected.filter(matches);
 

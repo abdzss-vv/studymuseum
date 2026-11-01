@@ -46,4 +46,14 @@ describe('Study rewards', () => {
     expect(parseRewards('bad json')).toEqual(emptyRewards);
     expect(parseRewards('{"pending":[{}],"collected":[]}')).toEqual(emptyRewards);
   });
+  it('retains custom studied subjects on artwork across confirmation and refresh without duplicates', () => {
+    const session = tickSession(startSession('Chemistry', 1, 1000), 61000);
+    const pending = completeReward(emptyRewards, session, now);
+    expect(pending.pending[0]?.subjectId).toBe('Chemistry');
+    const confirmed = confirmReward(parseRewards(JSON.stringify(pending)), session.id);
+    const restored = parseRewards(JSON.stringify(confirmed));
+    expect(restored.collected[0]?.subjectId).toBe('Chemistry');
+    expect(completeReward(restored, session, now).collected).toHaveLength(1);
+    expect(completeReward(emptyRewards, startSession('Chemistry', 1, 1000), now)).toBe(emptyRewards);
+  });
 });

@@ -1,6 +1,7 @@
 // Shared data shapes used across the app.
 
-export type SubjectId = "history" | "biology" | "math" | "literature" | "physics";
+// Built-in IDs remain unchanged; custom subjects use their display name as ID.
+export type SubjectId = string;
 
 export interface Subject {
   id: SubjectId;
