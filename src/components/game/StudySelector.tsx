@@ -22,6 +22,6 @@ export function StudySelector({ onStart }: { onStart: (session: StudySession) =>
       <div className="mt-2 flex justify-between text-xs text-muted-foreground"><span>1 minute</span><span>180 minutes</span></div>
       {!valid && <p role="alert" className="mt-2 text-sm text-destructive">Choose a whole number from 1 to 180 minutes.</p>}
     </fieldset>
-    <GameButton disabled={!valid} className="w-full py-3" onClick={() => onStart(startSession(subject, minutes, Date.now()))}>Enter the reading room <ArrowRight size={17} /></GameButton>
+    <GameButton disabled={!valid || !subject} className="w-full py-3" onClick={() => onStart(startSession(subject, minutes, Date.now()))}>Enter the reading room <ArrowRight size={17} /></GameButton>
   </div>;
 }
