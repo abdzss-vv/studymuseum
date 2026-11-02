@@ -20,6 +20,7 @@ export function TestForm({
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !deadline) return setError("Please enter a name and a deadline.");
+    if (!subjectId) return setError("Please add a subject first.");
     onSubmit({ name: name.trim(), subjectId, deadline });
     if (!initial) {
       setName("");

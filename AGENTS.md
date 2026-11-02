@@ -19,3 +19,4 @@
 - Artwork reveal uses supplied PNG faces and one continuous CSS Y-axis rotation for opening and clicking — preserves physical two-sided rendering without resetting the angle after the reveal.
 - MuseumScene renders user artwork as a proportional image in the home layout with container-relative exhibit hit areas; MuseumHome retains all panel/session state and custom artwork controls — keeps visual composition independent of viewport positioning and existing behavior.
 - SubjectSelect shares a browser-persisted subject registry through subjects-store; custom subject IDs are display names while built-in IDs stay stable — preserves existing saved tests/rewards and readable custom labels without storage-order dependencies.
+- Deleted built-in subjects persist as excluded IDs alongside the existing custom-subject registry; selectors fall back to an available subject and reject empty submissions — preserves saved associations without resurrecting deleted choices.

@@ -3,7 +3,17 @@ import { subjects as defaultSubjects } from '@/data/sample';
 import type { Subject } from '@/data/types';
 
 export const SUBJECTS_KEY = 'collectnstudy-subjects-v1';
+export const REMOVED_SUBJECTS_KEY = 'collectnstudy-removed-subjects-v1';
 const SUBJECTS_EVENT = 'collectnstudy-subjects-changed';
+export function parseRemovedSubjects(raw: string | null): string[] {
+  try {
+    const rows: unknown = JSON.parse(raw ?? '[]');
+    return Array.isArray(rows) ? rows.filter((id): id is string => typeof id === 'string' && isBuiltInSubject(id)) : [];
+  } catch { return []; }
+}
+export function availableSubjects(custom: Subject[], removed: string[]): Subject[] {
+  return [...defaultSubjects.filter((s) => !removed.includes(s.id)), ...custom];
+}
 export function parseSubjects(raw: string | null): Subject[] {
   try {
     const rows: unknown = JSON.parse(raw ?? '[]');
@@ -33,8 +43,8 @@ export function removeSubjectFromList(custom: Subject[], id: string): Subject[] 
 export function isBuiltInSubject(id: string): boolean {
   return defaultSubjects.some((s) => s.id === id);
 }
-function snapshot() {
-  try { return window.localStorage.getItem(SUBJECTS_KEY); } catch { return null; }
+function snapshot(key = SUBJECTS_KEY) {
+  try { return window.localStorage.getItem(key); } catch { return null; }
 }
 function subscribe(notify: () => void) {
   window.addEventListener('storage', notify);
@@ -46,19 +56,24 @@ function subscribe(notify: () => void) {
 }
 export function useSubjects() {
   const raw = useSyncExternalStore(subscribe, snapshot, () => null);
-  const subjects = useMemo(() => [...defaultSubjects, ...parseSubjects(raw)], [raw]);
+  const removedRaw = useSyncExternalStore(subscribe, () => snapshot(REMOVED_SUBJECTS_KEY), () => null);
+  const subjects = useMemo(() => availableSubjects(parseSubjects(raw), parseRemovedSubjects(removedRaw)), [raw, removedRaw]);
   const add = (input: string) => {
     const result = addSubjectToList(parseSubjects(snapshot()), input);
     if (!result) return null;
     window.localStorage.setItem(SUBJECTS_KEY, JSON.stringify(result.custom.map((s) => s.name)));
+    window.localStorage.setItem(REMOVED_SUBJECTS_KEY, JSON.stringify(parseRemovedSubjects(snapshot(REMOVED_SUBJECTS_KEY)).filter((id) => id !== result.subject.id)));
     window.dispatchEvent(new Event(SUBJECTS_EVENT));
     return result.subject;
   };
   const remove = (id: string) => {
     const next = removeSubjectFromList(parseSubjects(snapshot()), id);
     window.localStorage.setItem(SUBJECTS_KEY, JSON.stringify(next.map((s) => s.name)));
+    if (isBuiltInSubject(id)) {
+      window.localStorage.setItem(REMOVED_SUBJECTS_KEY, JSON.stringify([...new Set([...parseRemovedSubjects(snapshot(REMOVED_SUBJECTS_KEY)), id])]));
+    }
     window.dispatchEvent(new Event(SUBJECTS_EVENT));
-    return next;
+    return availableSubjects(next, parseRemovedSubjects(snapshot(REMOVED_SUBJECTS_KEY)));
   };
   return { subjects, add, remove, isBuiltIn: isBuiltInSubject };
 }
