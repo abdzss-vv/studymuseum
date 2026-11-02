@@ -3,6 +3,9 @@
 // Built-in IDs remain unchanged; custom subjects use their display name as ID.
 export type SubjectId = string;
 
+// Rewarded artwork cards, identified by artwork id.
+export type ArtworkId = "mona-lisa" | "pearl-earring";
+
 export interface Subject {
   id: SubjectId;
   name: string;
@@ -20,6 +23,7 @@ export interface Collectible {
   value: number; // estimated in-game value (coins)
   subjectId: SubjectId;
   note?: string; // credit / description
+  artwork?: ArtworkId; // which artwork card this earned reward shows
   earnedSessionId?: string;
   earnedAt?: string;
 }
