@@ -1,6 +1,6 @@
 import type { StudySession } from './study-session';
-import type { Collectible } from '@/data/types';
-import { makeReward } from '@/data/rewards';
+import type { ArtworkId, Collectible } from '@/data/types';
+import { makeReward, pickArtwork } from '@/data/rewards';
 
 export const REWARDS_KEY = 'collectnstudy-rewards-v1';
 export interface RewardsState { pending: Collectible[]; collected: Collectible[] }
@@ -8,7 +8,7 @@ export const emptyRewards: RewardsState = { pending: [], collected: [] };
 export function completeReward(state: RewardsState, session: StudySession, now: string): RewardsState {
   if (session.status !== 'done' || session.remaining !== 0 || !session.subject.trim()) return state;
   if ([...state.pending, ...state.collected].some((r) => r.earnedSessionId === session.id)) return state;
-  return { ...state, pending: [...state.pending, makeReward(session.id, session.subject, now)] };
+  return { ...state, pending: [...state.pending, makeReward(pickArtwork(), session.id, session.subject, now)] };
 }
 export function confirmReward(state: RewardsState, sessionId: string): RewardsState {
   const reward = state.pending.find((r) => r.earnedSessionId === sessionId);
@@ -26,8 +26,10 @@ export function parseRewards(raw: string | null): RewardsState {
       if (!row || typeof row !== 'object') return [];
       const r = row as Partial<Collectible>;
       if (typeof r.earnedSessionId !== 'string' || typeof r.earnedAt !== 'string' || typeof r.subjectId !== 'string' || !r.subjectId.trim() || seen.has(r.earnedSessionId)) return [];
+      // Older saves predate the artwork field and fall back to the Mona Lisa card.
+      const artwork: ArtworkId = r.artwork === 'pearl-earring' ? 'pearl-earring' : 'mona-lisa';
       seen.add(r.earnedSessionId);
-      return [makeReward(r.earnedSessionId, r.subjectId, r.earnedAt)];
+      return [makeReward(artwork, r.earnedSessionId, r.subjectId, r.earnedAt)];
     });
     const collected = normalize(data.collected);
     return { collected, pending: normalize(data.pending) };
