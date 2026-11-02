@@ -27,6 +27,12 @@ export function addSubjectToList(custom: Subject[], input: string): { custom: Su
   const subject = { id: name, name };
   return { custom: [...custom, subject], subject };
 }
+export function removeSubjectFromList(custom: Subject[], id: string): Subject[] {
+  return custom.filter((s) => s.id !== id);
+}
+export function isBuiltInSubject(id: string): boolean {
+  return defaultSubjects.some((s) => s.id === id);
+}
 function snapshot() {
   try { return window.localStorage.getItem(SUBJECTS_KEY); } catch { return null; }
 }
