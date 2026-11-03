@@ -23,7 +23,7 @@ export function FocusMode({ initial, onExit }: { initial: StudySession; onExit: 
   const time = `${String(Math.floor(session.remaining / 60)).padStart(2, '0')}:${String(session.remaining % 60).padStart(2, '0')}`;
   return <section className="focus-mode" aria-label="Study focus mode">
     <img className="focus-scenery" src={studyRoom} alt="A quiet sunlit reading room in the museum" width={1920} height={1088} />
-    <div className="focus-top"><span className="font-serif text-2xl">Study Museum</span><GameButton variant="outline" onClick={() => {
+    <div className="focus-top"><GameButton variant="outline" onClick={() => {
       if (session.status === 'done') onExit();
       else { setSession((current) => pauseSession(current, Date.now())); setConfirmExit(true); }
     }}><ArrowLeft size={16} /> Exit session</GameButton></div>
