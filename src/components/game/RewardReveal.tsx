@@ -10,7 +10,6 @@ import { useRewards } from './RewardsProvider';
 export function RewardReveal() {
   const { state, confirm, error } = useRewards();
   const reward = state.pending[0];
-  const card = reward ? artworkCards[reward.artwork ?? 'mona-lisa'] : undefined;
   const [stage, setStage] = useState<'box' | 'card'>('box');
   const [flipped, setFlipped] = useState(false);
   const [spinning, setSpinning] = useState(false);
@@ -37,6 +36,7 @@ export function RewardReveal() {
     setStage('card');
   };
   if (!reward) return null;
+  const card = artworkCards[reward.artwork ?? 'mona-lisa'];
   return <section className="reward-screen" role="dialog" aria-modal="true" aria-label="Study collectible reward">
     <img src={studyRoom} className="focus-scenery" alt="" width={1920} height={1088} />
     <div className="reward-content">
