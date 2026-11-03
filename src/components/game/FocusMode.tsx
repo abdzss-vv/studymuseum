@@ -23,14 +23,13 @@ export function FocusMode({ initial, onExit }: { initial: StudySession; onExit: 
   const time = `${String(Math.floor(session.remaining / 60)).padStart(2, '0')}:${String(session.remaining % 60).padStart(2, '0')}`;
   return <section className="focus-mode" aria-label="Study focus mode">
     <img className="focus-scenery" src={studyRoom} alt="A quiet sunlit reading room in the museum" width={1920} height={1088} />
-    <div className="focus-top"><span className="font-serif text-2xl">CollectnStudy</span><GameButton variant="outline" onClick={() => {
+    <div className="focus-top"><span className="font-serif text-2xl">Study Museum</span><GameButton variant="outline" onClick={() => {
       if (session.status === 'done') onExit();
       else { setSession((current) => pauseSession(current, Date.now())); setConfirmExit(true); }
     }}><ArrowLeft size={16} /> Exit session</GameButton></div>
     <div className="focus-content">
       <Leaf className="mx-auto mb-5 text-primary" size={28} />
-      <p className="text-xs uppercase text-primary">The reading room</p>
-      <h1 className="mt-3 text-3xl">{subjectName(session.subject as SubjectId)}</h1>
+      <h1 className="text-3xl">{subjectName(session.subject as SubjectId)}</h1>
       {session.status === 'done' ? <div className="mt-8"><Check size={36} className="mx-auto text-primary" /><h2 className="mt-4 text-4xl">A moment well spent.</h2><p className="mt-3 text-muted-foreground">Your {session.total / 60}-minute session has ended.</p></div> : <>
         <p className="focus-timer" role="timer" aria-label={`${time} remaining`}>{time}</p>
         <progress className="focus-progress" value={session.total - session.remaining} max={session.total} aria-label="Session progress" />
