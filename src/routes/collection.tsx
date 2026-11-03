@@ -7,9 +7,9 @@ export const Route = createFileRoute("/collection")({
     meta: [
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "Collection — CollectnStudy" },
+      { title: "Collection — Study Museum" },
       { name: "description", content: "Browse collectibles earned through focused study." },
-      { property: "og:title", content: "Collection — CollectnStudy" },
+      { property: "og:title", content: "Collection — Study Museum" },
       { property: "og:description", content: "Browse collectibles earned through focused study." },
     ],
   }),

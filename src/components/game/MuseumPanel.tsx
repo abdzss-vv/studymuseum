@@ -11,7 +11,7 @@ export function MuseumPanel({ open, onClose, title, description, children, compa
       <Dialog.Overlay className="museum-scrim" />
       <Dialog.Content className={`museum-panel ${compact ? 'museum-panel-compact' : ''}`}>
         <header className="museum-panel-heading">
-          <div><p className="text-xs uppercase text-primary">CollectnStudy</p><Dialog.Title className="mt-1 font-serif text-3xl">{title}</Dialog.Title></div>
+          <div><p className="text-xs uppercase text-primary">Study Museum</p><Dialog.Title className="mt-1 font-serif text-3xl">{title}</Dialog.Title></div>
           <Dialog.Close asChild><GameButton variant="ghost" aria-label="Close panel" className="h-10 w-10 p-0"><X size={20} /></GameButton></Dialog.Close>
         </header>
         <Dialog.Description className="sr-only">{description}</Dialog.Description>
