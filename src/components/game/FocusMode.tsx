@@ -33,7 +33,7 @@ export function FocusMode({ initial, onExit }: { initial: StudySession; onExit: 
       {session.status === 'done' ? <div className="mt-8"><Check size={36} className="mx-auto text-primary" /><h2 className="mt-4 text-4xl">A moment well spent.</h2><p className="mt-3 text-muted-foreground">Your {session.total / 60}-minute session has ended.</p></div> : <>
         <p className="focus-timer" role="timer" aria-label={`${time} remaining`}>{time}</p>
         <progress className="focus-progress" value={session.total - session.remaining} max={session.total} aria-label="Session progress" />
-        <p className="mt-5 text-sm text-muted-foreground">{session.status === 'paused' ? 'Take a breath. Your session is paused.' : 'One subject. A little time. Just you.'}</p>
+        {session.status === 'paused' && <p className="mt-5 text-sm text-muted-foreground">Take a breath. Your session is paused.</p>}
         <GameButton variant="outline" className="mt-7 min-w-32" onClick={() => setSession((current) => current.status === 'running' ? pauseSession(current, Date.now()) : resumeSession(current, Date.now()))}>
           {session.status === 'paused' ? <><Play size={16} /> Resume</> : <><Pause size={16} /> Pause</>}
         </GameButton>
