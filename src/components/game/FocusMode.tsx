@@ -33,7 +33,7 @@ export function FocusMode({ initial, onExit }: { initial: StudySession; onExit: 
   return <section className="focus-mode" aria-label="Study focus mode">
     <img className="focus-scenery" src={studyRoom} alt="A quiet sunlit reading room in the museum" width={1920} height={1088} />
     <div className="focus-top"><GameButton variant="outline" onClick={() => {
-      if (session.status === 'done') onExit();
+      if (session.status === 'done') finish();
       else { setSession((current) => pauseSession(current, Date.now())); setConfirmExit(true); }
     }}><ArrowLeft size={16} /> Exit session</GameButton></div>
     <div className="focus-content">
