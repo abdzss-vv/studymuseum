@@ -4,6 +4,7 @@ import studyRoom from '@/assets/study-room.jpg';
 import { subjectName } from '@/data/sample';
 import type { SubjectId } from '@/data/types';
 import { pauseSession, resumeSession, tickSession, type StudySession } from '@/lib/study-session';
+import chime from '@/assets/timer-done-chime.wav.asset.json';
 import { GameButton } from './ui';
 import { MuseumPanel } from './MuseumPanel';
 import { useRewards } from './RewardsProvider';
@@ -12,9 +13,17 @@ export function FocusMode({ initial, onExit }: { initial: StudySession; onExit: 
   const [session, setSession] = useState(initial);
   const [confirmExit, setConfirmExit] = useState(false);
   const { complete } = useRewards();
+  const finish = () => { complete(session); onExit(); };
   useEffect(() => {
-    if (session.status === 'done') { complete(session); onExit(); }
-  }, [session.status, complete, onExit, session]);
+    if (session.status !== 'done') return;
+    const audio = new Audio(chime.url);
+    let timer: number | undefined;
+    let stopped = false;
+    const play = () => { if (!stopped) audio.play().catch(() => {}); };
+    audio.onended = () => { timer = window.setTimeout(play, 2000); };
+    play();
+    return () => { stopped = true; window.clearTimeout(timer); audio.onended = null; audio.pause(); };
+  }, [session.status]);
   useEffect(() => {
     if (session.status !== 'running') return;
     const id = window.setInterval(() => setSession((current) => tickSession(current, Date.now())), 250);
@@ -30,7 +39,10 @@ export function FocusMode({ initial, onExit }: { initial: StudySession; onExit: 
     <div className="focus-content">
       <Leaf className="mx-auto mb-5 text-primary" size={28} />
       <h1 className="text-3xl">{subjectName(session.subject as SubjectId)}</h1>
-      {session.status === 'done' ? <div className="mt-8"><Check size={36} className="mx-auto text-primary" /><h2 className="mt-4 text-4xl">A moment well spent.</h2><p className="mt-3 text-muted-foreground">Your {session.total / 60}-minute session has ended.</p></div> : <>
+      {session.status === 'done' ? <>
+        <p className="focus-timer focus-timer-done" role="timer" aria-label="Time is up">00:00</p>
+        <GameButton className="mt-2 min-w-32" onClick={finish}><Check size={16} /> End Session</GameButton>
+      </> : <>
         <p className="focus-timer" role="timer" aria-label={`${time} remaining`}>{time}</p>
         <progress className="focus-progress" value={session.total - session.remaining} max={session.total} aria-label="Session progress" />
         {session.status === 'paused' && <p className="mt-5 text-sm text-muted-foreground">Take a breath. Your session is paused.</p>}
