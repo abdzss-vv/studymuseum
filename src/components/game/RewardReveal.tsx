@@ -37,6 +37,9 @@ export function RewardReveal() {
   };
   if (!reward) return null;
   const card = artworkCards[reward.artwork ?? 'mona-lisa'];
+  const landscape = card.orientation === 'landscape';
+  const faceWidth = landscape ? 1023 : 723;
+  const faceHeight = landscape ? 723 : 1023;
   return <section className="reward-screen" role="dialog" aria-modal="true" aria-label="Study collectible reward">
     <img src={studyRoom} className="focus-scenery" alt="" width={1920} height={1088} />
     <div className="reward-content">
@@ -46,10 +49,10 @@ export function RewardReveal() {
         <GameButton autoFocus variant="ghost" className="reward-box" aria-label="Open collectible box" onClick={openBox}><img src={rewardBox} alt="Illustrated oak collectible box with brass fittings and a green ribbon" width={1024} height={1024} /></GameButton>
         <div className="flex flex-wrap justify-center gap-3"><GameButton onClick={openBox}><Gift size={17} /> Open box</GameButton><GameButton variant="outline" onClick={() => setStage('card')}><SkipForward size={17} /> Skip animation</GameButton></div>
       </> : <>
-        <GameButton variant="ghost" aria-label={spinning ? 'Revealing collectible card' : flipped ? 'Show painting' : 'Flip card'} aria-pressed={spinning ? undefined : flipped} disabled={spinning} className={`artwork-card ${spinning ? 'artwork-card-spin' : ''}`} onClick={() => { setFlipped((v) => !v); setRotation((v) => v + 180); }}>
-          <div ref={cardRef} className="artwork-card-inner" style={{ transform: `rotateY(${rotation}deg)` }} onTransitionEnd={(event) => { if (event.target === event.currentTarget && event.propertyName === 'transform') setSpinning(false); }}>
-            <div className="artwork-card-face" aria-hidden={flipped}><img src={card.front} alt={`${card.name} artwork card, supplied high-resolution design`} width={723} height={1023} /></div>
-            <div className="artwork-card-face artwork-card-back" aria-hidden={!flipped}><img src={card.back} alt={`${card.name}. Painted by ${card.artist}, ${card.date}. ${card.fact}`} width={723} height={1023} /></div>
+<GameButton variant="ghost" aria-label={spinning ? 'Revealing collectible card' : flipped ? 'Show painting' : 'Flip card'} aria-pressed={spinning ? undefined : flipped} disabled={spinning} className={`artwork-card ${landscape ? 'artwork-card-landscape' : ''} ${spinning ? 'artwork-card-spin' : ''}`} onClick={() => { setFlipped((v) => !v); setRotation((v) => v + 180); }}>
+           <div ref={cardRef} className="artwork-card-inner" style={{ transform: `rotateY(${rotation}deg)` }} onTransitionEnd={(event) => { if (event.target === event.currentTarget && event.propertyName === 'transform') setSpinning(false); }}>
+            <div className="artwork-card-face" aria-hidden={flipped}><img src={card.front} alt={`${card.name} artwork card, supplied high-resolution design`} width={faceWidth} height={faceHeight} /></div>
+            <div className="artwork-card-face artwork-card-back" aria-hidden={!flipped}><img src={card.back} alt={`${card.name}. Painted by ${card.artist}, ${card.date}. ${card.fact}`} width={faceWidth} height={faceHeight} /></div>
           </div>
         </GameButton>
         <p className="mb-4 text-sm font-semibold text-primary">{reward.rarity} · Studied: {subjectName(reward.subjectId)}</p>

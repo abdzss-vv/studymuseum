@@ -4,25 +4,26 @@ import { pauseSession, startSession, tickSession } from '@/lib/study-session';
 
 describe('Study rewards', () => {
   const now = '2026-10-28T04:00:00.000Z';
-  it('grants one of the two artwork cards for natural completion with the studied subject', () => {
+  it('grants one of the three artwork cards for natural completion with the studied subject', () => {
     const state = completeReward(emptyRewards, tickSession(startSession('biology', 1, 1000), 61000), now);
     expect(state.pending).toHaveLength(1);
-    expect(['Mona Lisa', 'Girl with a Pearl Earring']).toContain(state.pending[0]?.name);
+    expect(['Mona Lisa', 'Girl with a Pearl Earring', 'The Great Wave off Kanagawa']).toContain(state.pending[0]?.name);
     expect(state.pending[0]?.subjectId).toBe('biology');
     expect(state.collected).toHaveLength(0);
   });
-  it('draws both artwork cards across many completed sessions', () => {
+  it('draws all three artwork cards across many completed sessions', () => {
     const names = new Set<string>();
-    for (let i = 0; i < 200; i++) {
+    for (let i = 0; i < 300; i++) {
       const pending = completeReward(emptyRewards, tickSession(startSession('history', 1, 1000), 61000), now).pending[0];
       if (pending) names.add(pending.name);
     }
-    expect(names).toEqual(new Set(['Mona Lisa', 'Girl with a Pearl Earring']));
+    expect(names).toEqual(new Set(['Mona Lisa', 'Girl with a Pearl Earring', 'The Great Wave off Kanagawa']));
   });
   it('keeps the earned artwork card across refresh and falls back to Mona Lisa for older saves', () => {
     const session = tickSession(startSession('literature', 1, 1000), 61000);
     const pending = completeReward(emptyRewards, session, now);
-    expect(pending.pending[0]?.artwork).toBe(pending.pending[0]?.name === 'Girl with a Pearl Earring' ? 'pearl-earring' : 'mona-lisa');
+    const artworkByName: Record<string, string> = { 'Mona Lisa': 'mona-lisa', 'Girl with a Pearl Earring': 'pearl-earring', 'The Great Wave off Kanagawa': 'great-wave' };
+    expect(pending.pending[0]?.artwork).toBe(artworkByName[pending.pending[0]?.name ?? '']);
     expect(parseRewards(JSON.stringify(pending)).pending[0]?.name).toBe(pending.pending[0]?.name);
     const legacy = JSON.stringify({ pending: [{ name: 'Mona Lisa', subjectId: 'history', earnedSessionId: 'old-1', earnedAt: now }], collected: [] });
     expect(parseRewards(legacy).pending[0]?.name).toBe('Mona Lisa');

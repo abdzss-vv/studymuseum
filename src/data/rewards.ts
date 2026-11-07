@@ -2,6 +2,9 @@ import cardFront from '@/assets/reward-card-front.png.asset.json';
 import cardBack from '@/assets/reward-card-back.png.asset.json';
 import pearlFront from '@/assets/pearl-earring-card-front.png.asset.json';
 import pearlBack from '@/assets/pearl-earring-card-back.png.asset.json';
+import waveFront from '@/assets/great-wave-card-front.png.asset.json';
+import waveBack from '@/assets/great-wave-card-back.png.asset.json';
+import waveImage from '@/assets/great-wave.jpg.asset.json';
 import { galleryPortrait } from './sample';
 import type { ArtworkId, Collectible, Rarity, SubjectId } from './types';
 
@@ -17,6 +20,12 @@ export const pearlEarringDetails = {
   fact: 'Often called the “Mona Lisa of the North”, this tronie’s pearl is likely an illusion painted with two quick white brushstrokes, and her turban blue comes from lapis lazuli pigment once more precious than gold.',
 };
 
+export const greatWaveDetails = {
+  artist: 'Katsushika Hokusai',
+  date: 'circa 1831',
+  fact: 'A woodblock print from the series Thirty-six Views of Mount Fuji. The towering wave frames a tiny Mount Fuji, and its deep blue comes from imported Prussian blue pigment.',
+};
+
 export interface ArtworkCard {
   id: ArtworkId;
   name: string;
@@ -28,6 +37,7 @@ export interface ArtworkCard {
   artist: string;
   date: string;
   fact: string;
+  orientation?: 'portrait' | 'landscape'; // card face shape, portrait when omitted
 }
 
 export const artworkCards: Record<ArtworkId, ArtworkCard> = {
@@ -39,10 +49,15 @@ export const artworkCards: Record<ArtworkId, ArtworkCard> = {
     id: 'pearl-earring', name: 'Girl with a Pearl Earring', rarity: 'Legendary', value: 1200,
     image: pearlFront.url, front: pearlFront.url, back: pearlBack.url, ...pearlEarringDetails,
   },
+  'great-wave': {
+    id: 'great-wave', name: 'The Great Wave off Kanagawa', rarity: 'Legendary', value: 1400,
+    image: waveImage.url, front: waveFront.url, back: waveBack.url, orientation: 'landscape', ...greatWaveDetails,
+  },
 };
 
-// Each completed study session earns one of the artwork cards, currently a 50-50 draw.
-export const pickArtwork = (): ArtworkId => (Math.random() < 0.5 ? 'mona-lisa' : 'pearl-earring');
+// Each completed study session earns one of the artwork cards, an equal 1-in-3 draw.
+const artworkIds: ArtworkId[] = ['mona-lisa', 'pearl-earring', 'great-wave'];
+export const pickArtwork = (): ArtworkId => artworkIds[Math.floor(Math.random() * artworkIds.length)] ?? 'mona-lisa';
 
 export function makeReward(artworkId: ArtworkId, sessionId: string, subjectId: SubjectId, earnedAt: string): Collectible {
   const card = artworkCards[artworkId];

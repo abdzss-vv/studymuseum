@@ -27,7 +27,7 @@ export function parseRewards(raw: string | null): RewardsState {
       const r = row as Partial<Collectible>;
       if (typeof r.earnedSessionId !== 'string' || typeof r.earnedAt !== 'string' || typeof r.subjectId !== 'string' || !r.subjectId.trim() || seen.has(r.earnedSessionId)) return [];
       // Older saves predate the artwork field and fall back to the Mona Lisa card.
-      const artwork: ArtworkId = r.artwork === 'pearl-earring' ? 'pearl-earring' : 'mona-lisa';
+      const artwork: ArtworkId = r.artwork === 'pearl-earring' || r.artwork === 'great-wave' ? r.artwork : 'mona-lisa';
       seen.add(r.earnedSessionId);
       return [makeReward(artwork, r.earnedSessionId, r.subjectId, r.earnedAt)];
     });

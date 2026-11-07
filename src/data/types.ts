@@ -4,7 +4,7 @@
 export type SubjectId = string;
 
 // Rewarded artwork cards, identified by artwork id.
-export type ArtworkId = "mona-lisa" | "pearl-earring";
+export type ArtworkId = "mona-lisa" | "pearl-earring" | "great-wave";
 
 export interface Subject {
   id: SubjectId;
