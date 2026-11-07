@@ -6,9 +6,9 @@ export const Route = createFileRoute("/museum")({
     meta: [
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "Museum — Study Museum" },
+      { title: "Museum" },
       { name: "description", content: "Display your earned collectibles in your own museum." },
-      { property: "og:title", content: "Museum — Study Museum" },
+      { property: "og:title", content: "Museum" },
       { property: "og:description", content: "Display your earned collectibles in your own museum." },
     ],
   }),

@@ -11,9 +11,9 @@ export const Route = createFileRoute("/study")({
     meta: [
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { title: "Study Session — Study Museum" },
+      { title: "Study Session" },
       { name: "description", content: "Start a focused study session with a calm timer." },
-      { property: "og:title", content: "Study Session — Study Museum" },
+      { property: "og:title", content: "Study Session" },
       { property: "og:description", content: "Start a focused study session with a calm timer." },
     ],
   }),
