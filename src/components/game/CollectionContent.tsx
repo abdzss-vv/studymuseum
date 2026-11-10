@@ -3,6 +3,7 @@ import { sampleCollectibles } from "@/data/sample";
 import { useSubjects } from '@/lib/subjects-store';
 import type { Category, Rarity } from "@/data/types";
 import { CollectibleCard } from "@/components/game/CollectibleCard";
+import { EarnedArtworkCard } from "@/components/game/EarnedArtworkCard";
 import { GameButton, SampleBadge, Select, SectionTitle } from "@/components/game/ui";
 import { useRewards } from './RewardsProvider';
 
@@ -41,7 +42,7 @@ export function CollectionContent() {
           </GameButton>
         </div>
         <SectionTitle>Earned through study</SectionTitle>
-        {earned.length ? <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">{earned.map((c) => <CollectibleCard key={c.id} item={c} />)}</div> : <p className="mb-8 text-sm text-muted-foreground">{state.collected.length ? 'No earned items match these filters.' : 'Your collection awaits its first artwork.'}</p>}
+        {earned.length ? <div className="earned-artwork-grid mb-8">{earned.map((c) => <EarnedArtworkCard key={c.id} item={c} />)}</div> : <p className="mb-8 text-sm text-muted-foreground">{state.collected.length ? 'No earned items match these filters.' : 'Your collection awaits its first artwork.'}</p>}
         <SectionTitle action={<SampleBadge>Demonstration items</SampleBadge>}>Catalogue preview</SectionTitle>
         {items.length ? (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">

@@ -12,6 +12,7 @@
 ## Project rules
 - Sample/demo data lives in `src/data/` (types in `types.ts`), never inline in route components — keeps content easy to replace.
 - Reusable game UI lives in `src/components/game/`; colours only via tokens in `src/styles.css` — keeps theming in one place.
+- Earned collection tiles use a dedicated front-face display and local-calendar receipt metadata, separate from demo tiles and reveal controls — isolates collection presentation without changing reward behavior.
 - Tests list persists in localStorage via `src/lib/tests-store.ts` (no backend in prototype) — scope excludes backend.
 - MuseumHome is the shared immersive experience for home and museum; standalone collection and tests routes reuse their panel content — prevents competing screen implementations while preserving public URLs.
 - FocusMode and StudySelector share pure timestamp-based session logic in study-session — keeps countdown accurate after inactive tabs and makes pause/completion testable.

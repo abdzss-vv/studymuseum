@@ -5,3 +5,5 @@
 - [x] Verify navigation, exhibits, study/rewards, collection and saved tests without changing their logic.
 - [x] Add shared custom subjects to study and test selection, schedule labels, and artwork/filter persistence.
 - [x] Test custom subject creation, reuse, and reward refresh recovery.
+- [x] Match earned artwork tiles to the reference using supplied fronts, studied subjects, and local receipt dates.
+- [x] Verify portrait/landscape tiles on desktop/mobile and run reward/study regression tests (original uploads used in browser checks because existing front asset URLs return 404).
