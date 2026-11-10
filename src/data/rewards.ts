@@ -1,8 +1,8 @@
-import cardFront from '@/assets/reward-card-front.png.asset.json';
+import cardFront from '@/assets/mona-lisa-front.png.asset.json';
 import cardBack from '@/assets/reward-card-back.png.asset.json';
-import pearlFront from '@/assets/pearl-earring-card-front.png.asset.json';
+import pearlFront from '@/assets/pearl-earring-front.png.asset.json';
 import pearlBack from '@/assets/pearl-earring-card-back.png.asset.json';
-import waveFront from '@/assets/great-wave-card-front.png.asset.json';
+import waveFront from '@/assets/great-wave-front.png.asset.json';
 import waveBack from '@/assets/great-wave-card-back.png.asset.json';
 import waveImage from '@/assets/great-wave.jpg.asset.json';
 import { galleryPortrait } from './sample';
