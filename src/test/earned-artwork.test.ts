@@ -2,8 +2,16 @@ import { describe, expect, it } from 'vitest';
 import { makeReward, artworkCards } from '@/data/rewards';
 import { earnedArtworkDetails } from '@/lib/earned-artwork';
 import { parseRewards } from '@/lib/rewards-store';
+import monaFront from '@/assets/mona-lisa-front.png.asset.json';
+import pearlFront from '@/assets/pearl-earring-front.png.asset.json';
+import waveFront from '@/assets/great-wave-front.png.asset.json';
 
 describe('Earned artwork information', () => {
+  it('resolves every supplied front independently of the preview address', () => {
+    for (const [id, asset] of [['mona-lisa', monaFront], ['pearl-earring', pearlFront], ['great-wave', waveFront]] as const) {
+      expect(artworkCards[id].front).toBe(`https://studymuseum.lovable.app${asset.url}`);
+    }
+  });
   it('uses the subject selected for the earned reward, including custom subjects', () => {
     const reward = makeReward('pearl-earring', 'custom-session', 'Chemistry', '2026-11-09T12:00:00Z');
     const restored = parseRewards(JSON.stringify({ pending: [], collected: [reward] })).collected[0];

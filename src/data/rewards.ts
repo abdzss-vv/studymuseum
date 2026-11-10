@@ -8,6 +8,9 @@ import waveImage from '@/assets/great-wave.jpg.asset.json';
 import { galleryPortrait } from './sample';
 import type { ArtworkId, Collectible, Rarity, SubjectId } from './types';
 
+// Serve card fronts from the canonical asset host, independent of the editor iframe origin.
+const frontUrl = (asset: { url: string }) => new URL(asset.url, 'https://studymuseum.lovable.app').href;
+
 // Details shown on the back of each artwork card.
 export const monaLisaDetails = {
   artist: 'Leonardo da Vinci',
@@ -43,15 +46,15 @@ export interface ArtworkCard {
 export const artworkCards: Record<ArtworkId, ArtworkCard> = {
   'mona-lisa': {
     id: 'mona-lisa', name: 'Mona Lisa', rarity: 'Legendary', value: galleryPortrait.value,
-    image: galleryPortrait.image, front: cardFront.url, back: cardBack.url, ...monaLisaDetails,
+    image: galleryPortrait.image, front: frontUrl(cardFront), back: cardBack.url, ...monaLisaDetails,
   },
   'pearl-earring': {
     id: 'pearl-earring', name: 'Girl with a Pearl Earring', rarity: 'Legendary', value: 1200,
-    image: pearlFront.url, front: pearlFront.url, back: pearlBack.url, ...pearlEarringDetails,
+    image: frontUrl(pearlFront), front: frontUrl(pearlFront), back: pearlBack.url, ...pearlEarringDetails,
   },
   'great-wave': {
     id: 'great-wave', name: 'The Great Wave off Kanagawa', rarity: 'Legendary', value: 1400,
-    image: waveImage.url, front: waveFront.url, back: waveBack.url, orientation: 'landscape', ...greatWaveDetails,
+    image: waveImage.url, front: frontUrl(waveFront), back: waveBack.url, orientation: 'landscape', ...greatWaveDetails,
   },
 };
 
