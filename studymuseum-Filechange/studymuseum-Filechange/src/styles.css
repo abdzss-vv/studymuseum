@@ -1,0 +1,278 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* CollectnStudy design system — warm museum + cozy study palette. */
+
+/* Overused Grotesk: only SemiBold (600) and Bold (700) are supplied; lighter weights fall back to 600. */
+@font-face {
+  font-family: "Overused Grotesk";
+  src: url("/fonts/OverusedGrotesk-SemiBold.ttf") format("truetype");
+  font-weight: 100 650;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Overused Grotesk";
+  src: url("/fonts/OverusedGrotesk-Bold.ttf") format("truetype");
+  font-weight: 651 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --font-serif: "Overused Grotesk", system-ui, sans-serif;
+  --font-sans: "Overused Grotesk", system-ui, sans-serif;
+  --font-mono: "Overused Grotesk", system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-wood: var(--wood);
+  --color-wood-foreground: var(--wood-foreground);
+  --color-sage: var(--sage);
+  --color-rarity-common: var(--rarity-common);
+  --color-rarity-uncommon: var(--rarity-uncommon);
+  --color-rarity-rare: var(--rarity-rare);
+  --color-rarity-legendary: var(--rarity-legendary);
+  --shadow-frame: var(--shadow-frame-val);
+  --shadow-soft: var(--shadow-soft-val);
+}
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.965 0.018 85);
+  --foreground: oklch(0.28 0.035 50);
+  --card: oklch(0.985 0.012 85);
+  --card-foreground: oklch(0.28 0.035 50);
+  --popover: oklch(0.985 0.012 85);
+  --popover-foreground: oklch(0.28 0.035 50);
+  --primary: oklch(0.42 0.06 155);
+  --primary-foreground: oklch(0.97 0.015 85);
+  --secondary: oklch(0.92 0.025 80);
+  --secondary-foreground: oklch(0.32 0.04 50);
+  --muted: oklch(0.93 0.02 82);
+  --muted-foreground: oklch(0.5 0.035 55);
+  --accent: oklch(0.9 0.04 80);
+  --accent-foreground: oklch(0.3 0.04 50);
+  --destructive: oklch(0.52 0.15 28);
+  --destructive-foreground: oklch(0.97 0.015 85);
+  --border: oklch(0.85 0.03 75);
+  --input: oklch(0.85 0.03 75);
+  --ring: oklch(0.7 0.11 80);
+  --gold: oklch(0.7 0.11 80);
+  --gold-soft: oklch(0.88 0.06 85);
+  --wood: oklch(0.38 0.06 50);
+  --wood-foreground: oklch(0.94 0.025 85);
+  --sage: oklch(0.62 0.05 150);
+  --rarity-common: oklch(0.6 0.02 70);
+  --rarity-uncommon: oklch(0.55 0.08 150);
+  --rarity-rare: oklch(0.5 0.08 240);
+  --rarity-legendary: oklch(0.62 0.12 75);
+  --shadow-frame-val: 0 1px 0 oklch(1 0 0 / 0.6) inset, 0 6px 18px -8px oklch(0.3 0.05 50 / 0.35);
+  --shadow-soft-val: 0 2px 10px -4px oklch(0.3 0.05 50 / 0.2);
+  --scrim: oklch(0.22 0.025 145 / 0.35);
+  --museum-glass: oklch(0.985 0.012 85 / 0.94);
+  --museum-shadow: 0 8px 30px oklch(0.22 0.035 50 / 0.18);
+  --reward-veil: oklch(0.965 0.018 85 / 0.91);
+  --museum-canvas: oklch(1 0 0);
+  --museum-button-shadow: 0 7px 12px oklch(0.3 0.045 145 / 0.18);
+  --artwork-subject: oklch(0.52 0.07 140);
+  --artwork-date: oklch(0.7 0.035 75);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 600; letter-spacing: 0; }
+  #lovable-badge {
+    display: none !important;
+  }
+}
+
+@utility panel {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft-val);
+}
+
+@utility gilded-frame {
+  border: 6px solid var(--gold);
+  outline: 1px solid var(--wood);
+  outline-offset: 0;
+  box-shadow: var(--shadow-frame-val);
+  background-color: var(--muted);
+}
+
+.earned-artwork-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 266px)); justify-content: space-between; align-items: start; gap: 24px; }
+.earned-artwork { min-width: 0; padding: 14px 11px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--card); }
+.earned-artwork-face { display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: 480 / 680; }
+.earned-artwork-face img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; border-radius: 16px; object-fit: contain; }
+.earned-artwork-date { display: block; min-height: 18px; text-align: right; font-size: 14px; line-height: 18px; color: var(--artwork-date); font-variant-numeric: tabular-nums; }
+.earned-artwork-subject { font-size: 20px; line-height: 24px; color: var(--wood); overflow-wrap: anywhere; }
+.earned-artwork-subject strong { font-weight: 700; color: var(--artwork-subject); }
+@media (max-width: 480px) {
+  .earned-artwork-grid { grid-template-columns: minmax(0, 266px); justify-content: center; }
+}
+
+.museum-root { min-height: 100svh; }
+.museum-home { position: relative; min-height: 100svh; padding: 15px 0 27px; background: var(--museum-canvas); }
+.gallery-viewport { position: absolute; inset: 0; overflow: hidden; }
+.gallery-scene { position: absolute; width: max(100vw, calc(100svh * 1.765)); height: max(100svh, calc(100vw / 1.765)); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.gallery-background { position: absolute; inset: 0; width: 100%; height: 100%; }
+.gallery-art { position: absolute; padding: 0; border: 0; border-radius: 0; overflow: hidden; transition: filter 180ms, box-shadow 180ms; }
+.gallery-art:hover { background: transparent; filter: brightness(1.12); box-shadow: 0 0 0 2px var(--gold); }
+.gallery-art img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-art-left { left: 24.8%; top: 26.4%; width: 14.3%; height: 15.6%; }
+.gallery-art-centre { left: 45.6%; top: 21.1%; width: 9%; height: 22.6%; }
+.gallery-art-right { left: 61.1%; top: 26.4%; width: 14.3%; height: 15.6%; }
+.gallery-amphora { left: 46.7%; top: 49%; width: 6.5%; height: 17%; border-radius: 50%; }
+.gallery-amphora:hover { box-shadow: none; outline: 2px solid var(--gold); background: var(--gold-soft); opacity: 0.25; }
+.museum-top { position: relative; z-index: 1; height: 105px; pointer-events: none; }
+.museum-logo { display: block; width: 401px; max-width: 100%; height: auto; }
+.museum-composition { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 588px) minmax(0, 1fr); align-items: center; margin-top: -75px; }
+.miniature-museum { position: relative; grid-column: 2; width: 100%; max-width: min(588px, calc((100svh - 166px) * 0.9767)); justify-self: center; aspect-ratio: 588 / 602; }
+.miniature-museum-image { display: block; width: 100%; height: auto; }
+.miniature-exhibits { position: absolute; inset: 0; pointer-events: none; }
+.miniature-exhibit { position: absolute; pointer-events: auto; padding: 0; border-radius: 2px; background: transparent; border: 1px solid transparent; }
+.miniature-exhibit:hover, .miniature-exhibit:focus-visible { background: color-mix(in oklab, var(--gold-soft) 20%, transparent); border-color: var(--gold); }
+.miniature-exhibit-left { left: 24%; top: 30%; width: 9%; height: 17%; }
+.miniature-exhibit-centre { left: 58%; top: 23%; width: 9%; height: 18%; }
+.miniature-exhibit-right { left: 77%; top: 32%; width: 9%; height: 17%; }
+.miniature-exhibit-amphora { left: 46%; top: 58%; width: 8%; height: 12%; }
+.museum-art-button { display: block; padding: 0; border: none; border-radius: 0; background: transparent; transition: transform 180ms ease, filter 180ms ease; }
+.museum-art-button img { display: block; width: 100%; height: auto; }
+.museum-art-button:hover { background: transparent; }
+@media (hover: hover) {
+  .museum-art-button:hover { transform: scale(1.05); filter: drop-shadow(var(--museum-button-shadow)); }
+}
+.museum-art-button:active { transform: scale(0.97); filter: none; }
+.museum-brand { display: flex; gap: 12px; align-items: center; background: var(--museum-glass); padding: 12px 18px; border: 1px solid var(--gold); border-radius: 6px; box-shadow: var(--museum-shadow); color: var(--primary); }
+.museum-brand h1 { font-size: 27px; line-height: 1; }
+.museum-brand h1 span { color: var(--gold); }
+.museum-brand p { font-size: 11px; margin-top: 5px; color: var(--muted-foreground); }
+.museum-currency { display: flex; align-items: center; gap: 9px; background: var(--museum-glass); padding: 11px 16px; border: 1px solid var(--gold); border-radius: 6px; box-shadow: var(--museum-shadow); color: var(--primary); font-weight: 600; }
+.museum-room-label { position: absolute; top: 115px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 14px; color: var(--wood); font-family: var(--font-serif); font-size: 21px; }
+.room-line { width: 36px; height: 1px; background: var(--wood); opacity: .5; }
+.museum-tools { grid-column: 3; justify-self: end; margin-right: 4.1vw; margin-top: 180px; display: flex; flex-direction: column; gap: 6px; }
+.museum-tools button { width: 87px; height: 86px; }
+.museum-tools span { font-size: 9px; }
+.museum-bottom { display: flex; justify-content: center; margin-top: 11px; }
+.gallery-caption { display: flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 4px; background: var(--museum-glass); font-size: 11px; color: var(--primary); }
+.begin-study { width: 330px; max-width: calc(100% - 40px); }
+.museum-bottom-note { color: var(--wood); font-size: 12px; background: var(--museum-glass); padding: 3px 9px; border-radius: 3px; }
+.museum-scrim { position: fixed; inset: 0; z-index: 50; background: var(--scrim); backdrop-filter: blur(2px); }
+.museum-panel { position: fixed; right: 24px; top: 24px; bottom: 24px; z-index: 51; width: min(760px, calc(100vw - 48px)); border: 1px solid var(--gold); border-radius: 8px; background: var(--card); box-shadow: var(--museum-shadow); display: flex; flex-direction: column; animation: panel-arrive 180ms ease-out; }
+.museum-panel-compact { top: 50%; bottom: auto; right: 50%; transform: translate(50%, -50%); width: min(460px, calc(100vw - 32px)); max-height: calc(100svh - 48px); }
+.museum-panel-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 22px 24px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.museum-panel-body { padding: 24px; overflow-y: auto; min-height: 0; }
+.museum-panel-body form { grid-template-columns: 1fr 1fr; }
+.museum-panel-body form > label:first-child { grid-column: 1 / -1; }
+.museum-panel-body form > div { grid-column: 1 / -1; }
+.museum-panel-body form [role=alert] { grid-column: 1 / -1; }
+.journal-stats { margin: 24px 0; }
+.journal-stats > div { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.journal-stats dt { font-size: 14px; color: var(--muted-foreground); }
+.journal-stats dd { font-weight: 600; color: var(--primary); }
+.focus-mode { position: fixed; inset: 0; z-index: 40; background: var(--background); overflow-y: auto; }
+.focus-scenery { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.focus-top { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 28px; color: var(--primary); }
+.focus-content { position: relative; margin: min(12svh, 100px) auto 60px; width: min(480px, calc(100% - 32px)); padding: 32px 16px; text-align: center; }
+.focus-timer { font-family: var(--font-serif); font-size: 112px; line-height: 1; font-variant-numeric: tabular-nums; margin: 30px 0; color: var(--primary); }
+.focus-timer-done { animation: timer-blink 1s steps(2, start) infinite; }
+@keyframes timer-blink { to { visibility: hidden; } }
+.focus-progress { display: block; appearance: none; width: min(280px, 100%); height: 3px; margin: auto; border: none; background: var(--border); color: var(--primary); }
+.focus-progress::-webkit-progress-bar { background: var(--border); }
+.focus-progress::-webkit-progress-value { background: var(--primary); }
+.focus-progress::-moz-progress-bar { background: var(--primary); }
+.duration-slider { width: 100%; height: 32px; accent-color: var(--primary); cursor: pointer; }
+.reward-screen { position: fixed; inset: 0; z-index: 70; overflow-y: auto; background: var(--background); }
+.reward-screen::after { content: ''; position: absolute; inset: 0; min-height: 100%; background: var(--reward-veil); }
+.reward-content { position: relative; z-index: 1; min-height: 100svh; max-width: 660px; margin: auto; padding: 36px 16px; text-align: center; }
+.reward-box { display: block; width: min(400px, 90%); aspect-ratio: 1; padding: 0; margin: 24px auto; background: transparent; }
+.reward-box:hover { background: transparent; }
+.reward-box img { width: 100%; height: 100%; object-fit: contain; }
+.artwork-card { display: block; width: min(390px, 100%); aspect-ratio: 480 / 680; margin: 24px auto 16px; perspective: 1400px; background: transparent; border: none; padding: 0; cursor: pointer; }
+.artwork-card-landscape { width: min(560px, 100%); aspect-ratio: 680 / 480; }
+.artwork-card:hover, .artwork-card:focus-visible { background: transparent; }
+.artwork-card:disabled { opacity: 1; cursor: default; }
+.artwork-card-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 750ms ease-in-out; }
+.artwork-card-spin .artwork-card-inner { transition-duration: 1.1s; }
+.artwork-card-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; overflow: hidden; border-radius: 28px; }
+.artwork-card-face img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.artwork-card-back { transform: rotateY(180deg); }
+@media (max-width: 700px) {
+  .reward-content { padding: 24px 16px; }
+  .reward-content h1 { font-size: 30px; }
+  .artwork-card { width: min(390px, 100%); }
+}
+@keyframes panel-arrive { from { opacity: 0; } to { opacity: 1; } }
+@keyframes gallery-breathe { 50% { filter: brightness(1.035); } }
+.museum-home:not(.museum-still) .gallery-background { animation: gallery-breathe 12s ease-in-out infinite; }
+@media (max-width: 700px) {
+  .museum-home { padding: 12px 16px 24px; }
+  .gallery-viewport { overflow-x: auto; scrollbar-width: none; }
+  .gallery-viewport::-webkit-scrollbar { display: none; }
+  .gallery-scene { position: relative; left: 0; top: 0; transform: none; width: max(830px, calc(100svh * 1.765)); height: max(470px, 100svh); }
+  .museum-top { height: auto; }
+  .museum-logo { width: 300px; }
+  .museum-composition { grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 12px; }
+  .miniature-museum { grid-column: 1; max-width: 500px; }
+  .museum-brand { padding: 10px 12px; gap: 8px; }
+  .museum-brand h1 { font-size: 22px; }
+  .museum-brand > svg { display: none; }
+  .museum-brand p { font-size: 10px; }
+  .museum-currency { padding: 9px 12px; }
+  .museum-currency > span:last-child { display: none; }
+  .museum-room-label { top: 102px; font-size: 18px; }
+  .museum-tools { grid-column: 1; justify-self: center; margin: 0; flex-direction: row; gap: 8px; }
+  .museum-tools button { width: 64px; height: 64px; }
+  .museum-bottom { margin-top: 22px; }
+  .museum-bottom-note { font-size: 10px; }
+  .museum-panel { right: 8px; top: 12px; bottom: 12px; width: calc(100vw - 16px); }
+  .museum-panel-compact { right: 50%; top: 50%; bottom: auto; width: calc(100vw - 24px); }
+  .museum-panel-heading { padding: 18px; }
+  .museum-panel-body { padding: 18px; }
+  .focus-scenery { object-position: 54% center; }
+  .focus-top { margin: 16px; }
+  .focus-content { background: var(--museum-glass); border-radius: 8px; margin-top: 16svh; }
+  .focus-timer { font-size: 86px; }
+}
+@media (min-width: 701px) and (max-width: 1000px) {
+  .museum-logo { width: 320px; }
+  .museum-composition { grid-template-columns: minmax(20px, 1fr) minmax(0, 560px) minmax(104px, 1fr); margin-top: -45px; }
+  .museum-tools { margin-right: 16px; margin-top: 90px; }
+  .museum-tools button { width: 72px; height: 72px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
