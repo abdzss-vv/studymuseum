@@ -4,7 +4,7 @@ import { MuseumHome } from "@/components/game/MuseumHome";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your little museum" },
+      { title: "Study Museum" },
 
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
